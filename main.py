@@ -52,6 +52,15 @@ def puntajes():
         GROUP BY alumnos.id
     ''').fetchall()
     return render_template('puntajes.html', puntajes=puntajes)
+@app.route('/eliminar_alumno/<int:alumno_id>', methods=['POST'])
+def eliminar_alumno(alumno_id):
+    db = get_db()
+    # Borrar primero los puntos relacionados
+    db.execute('DELETE FROM talleres WHERE alumno_id = ?', (alumno_id,))
+    # Luego borrar el alumno
+    db.execute('DELETE FROM alumnos WHERE id = ?', (alumno_id,))
+    db.commit()
+    return redirect('/')
 
 if __name__ == '__main__':
     app.run(debug=True)

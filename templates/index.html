@@ -37,3 +37,14 @@
     👉 Ver Puntajes Totales por Alumno
   </a>
 </p>
+<ul>
+  {% for alumno in alumnos %}
+    <li>
+      ID: {{ alumno.id }} | {{ alumno.nombre }} - {{ alumno.cedula }}
+      <form action="/eliminar_alumno/{{ alumno.id }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Eliminar este alumno?');">
+        <button style="color: white; background-color: red; border: none; padding: 4px 8px; margin-left: 10px; border-radius: 4px;">❌ Eliminar</button>
+      </form>
+    </li>
+  {% endfor %}
+</ul>
+
