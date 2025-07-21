@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Puntos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <h1>🎓 Lista de Alumnos</h1>
+
+  <form action="/nuevo_alumno" method="POST">
+    <input name="nombre" placeholder="Nombre del alumno" required>
+    <input name="cedula" placeholder="Cédula" required>
+    <button type="submit">Agregar Alumno</button>
+  </form>
+
+  <ul>
+    {% for alumno in alumnos %}
+      <li>ID: {{ alumno.id }} | {{ alumno.nombre }} - {{ alumno.cedula }}</li>
+    {% endfor %}
+  </ul>
+
+  <hr>
+<h2>🏆 Asignar Puntos</h2>
+<form action="/asignar_puntos" method="POST">
+  <input name="alumno_id" placeholder="ID del alumno" required>
+  <input name="taller" placeholder="Nombre del taller" required>
+  <input name="puntos" type="number" placeholder="Puntos" required>
+  <input name="fecha" type="date" required>
+  <button type="submit">Asignar</button>
+</form>
+<hr>
+
+<h2>📈 Ver Puntajes</h2>
+<p>
+  <a href="/puntajes" style="font-size: 18px; color: blue; text-decoration: underline;">
+    👉 Ver Puntajes Totales por Alumno
+  </a>
+</p>
