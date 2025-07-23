@@ -1,53 +1,61 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Gestión de Puntos</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-  <h1>🎓 Lista de Alumnos</h1>
+{% extends "base.html" %}
+{% block title %}Inicio - Gestión de Puntos{% endblock %}
 
-  <form action="/nuevo_alumno" method="POST">
-    <input name="nombre" placeholder="Nombre del alumno" required>
-    <input name="cedula" placeholder="Cédula" required>
-    <button type="submit">Agregar Alumno</button>
+{% block content %}
+  <h2 class="mb-4">🎓 Lista de Alumnos</h2>
+
+  <!-- Formulario nuevo alumno -->
+  <form action="/nuevo_alumno" method="POST" class="row g-3 mb-4">
+    <div class="col-md-5">
+      <input name="nombre" class="form-control" placeholder="Nombre del alumno" required>
+    </div>
+    <div class="col-md-5">
+      <input name="cedula" class="form-control" placeholder="Cédula" required>
+    </div>
+    <div class="col-md-2">
+      <button type="submit" class="btn btn-success w-100">Agregar</button>
+    </div>
   </form>
 
-  <ul>
+  <!-- Lista de alumnos -->
+  <ul class="list-group mb-4">
     {% for alumno in alumnos %}
-      <li>ID: {{ alumno.id }} | {{ alumno.nombre }} - {{ alumno.cedula }}</li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        ID: {{ alumno.id }} | {{ alumno.nombre }} - {{ alumno.cedula }}
+        <form action="/eliminar_alumno/{{ alumno.id }}" method="POST" onsubmit="return confirm('¿Eliminar este alumno?');">
+          <button class="btn btn-danger btn-sm">❌</button>
+        </form>
+      </li>
     {% endfor %}
   </ul>
 
-  <hr>
-<h2>🏆 Asignar Puntos</h2>
-<form action="/asignar_puntos" method="POST">
-  <input name="alumno_id" placeholder="ID del alumno" required>
-  <input name="taller" placeholder="Nombre del taller" required>
-  <input name="puntos" type="number" placeholder="Puntos" required>
-  <input name="fecha" type="date" required>
-  <button type="submit">Asignar</button>
-</form>
-<hr>
+  <!-- Asignar puntos -->
+  <h3 class="mb-3">🏆 Asignar Puntos</h3>
+  <form action="/asignar_puntos" method="POST" class="row g-3 mb-4">
+    <div class="col-md-3">
+      <input name="alumno_id" class="form-control" placeholder="ID del alumno" required>
+    </div>
+    <div class="col-md-3">
+      <input name="taller" class="form-control" placeholder="Nombre del taller" required>
+    </div>
+    <div class="col-md-2">
+      <input name="puntos" type="number" class="form-control" placeholder="Puntos" required>
+    </div>
+    <div class="col-md-2">
+      <input name="fecha" type="date" class="form-control" required>
+    </div>
+    <div class="col-md-2">
+      <button type="submit" class="btn btn-primary w-100">Asignar</button>
+    </div>
+  </form>
 
-<h2>📈 Ver Puntajes</h2>
-<p>
-  <a href="/puntajes" style="font-size: 18px; color: blue; text-decoration: underline;">
+  <!-- Ver puntajes -->
+  <h3>📈 Ver Puntajes</h3>
+  <a href="/puntajes" class="btn btn-outline-info mb-4">
     👉 Ver Puntajes Totales por Alumno
   </a>
-</p>
-<ul>
-  {% for alumno in alumnos %}
-    <li>
-      ID: {{ alumno.id }} | {{ alumno.nombre }} - {{ alumno.cedula }}
-      <form action="/eliminar_alumno/{{ alumno.id }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Eliminar este alumno?');">
-        <button style="color: white; background-color: red; border: none; padding: 4px 8px; margin-left: 10px; border-radius: 4px;">❌ Eliminar</button>
-      </form>
-    </li>
-  {% endfor %}
-</ul>
-<h2>📋 Lista de Talleres Disponibles</h2>
-<a href="/talleres_disponibles" class="btn btn-outline-secondary">Ver / Agregar Taller Nuevo</a>
 
-
+  <!-- Link a talleres -->
+  <h3>📋 Lista de Talleres Disponibles</h3>
+  <a href="/talleres_disponibles" class="btn btn-outline-secondary">Ver / Agregar Taller Nuevo</a>
+{% endblock %}
