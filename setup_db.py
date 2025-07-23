@@ -23,6 +23,16 @@ CREATE TABLE IF NOT EXISTS talleres (
     FOREIGN KEY (alumno_id) REFERENCES alumnos(id)
 )
 ''')
+# Tabla de talleres independientes
+conn.execute('''
+CREATE TABLE IF NOT EXISTS talleres_disponibles (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre TEXT NOT NULL,
+    descripcion TEXT,
+    fecha TEXT
+)
+''')
+
 
 # Guardar y cerrar
 conn.commit()

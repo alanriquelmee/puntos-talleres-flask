@@ -61,6 +61,22 @@ def eliminar_alumno(alumno_id):
     db.execute('DELETE FROM alumnos WHERE id = ?', (alumno_id,))
     db.commit()
     return redirect('/')
+@app.route('/talleres_disponibles', methods=['GET', 'POST'])
+def talleres_disponibles():
+    db = get_db()
+
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        descripcion = request.form['descripcion']
+        fecha = request.form['fecha']
+        db.execute("INSERT INTO talleres_disponibles (nombre, descripcion, fecha) VALUES (?, ?, ?)",
+                   (nombre, descripcion, fecha))
+        db.commit()
+        return redirect('/talleres_disponibles')
+
+    talleres = db.execute("SELECT * FROM talleres_disponibles ORDER BY fecha DESC").fetchall()
+    return render_template('talleres_disponibles.html', talleres=talleres)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
